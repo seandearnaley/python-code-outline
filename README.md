@@ -2,6 +2,8 @@
 
 This Python script generates a text-based report of the code structure for all Python files in a given folder.
 
+[Example Report](example_report.txt?raw=true)
+
 ## Usage
 
 To use this script, simply run the `main.py` file and provide the path to the folder containing the Python files you want to analyze.
