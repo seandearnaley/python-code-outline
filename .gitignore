@@ -1,0 +1,23 @@
+# VS Code settings
+.vscode/
+
+# Pycharm
+.idea/
+
+# env files
+*.env
+.env
+
+# log files
+logs/
+
+# Input files
+inputs/
+
+# Output files
+outputs/
+output.json
+
+__pycache__/
+
+report.txt
