@@ -1,19 +1,52 @@
-----------------
-app/data_types/__init__.py:
-----------------
+reddit-gpt-summarizer/
+|-- app/
+|   |-- data_types/
+|   |   |-- __init__.py
+|   |   |-- summary.py
+|   |-- services/
+|   |   |-- anthropic_connector.py
+|   |   |-- openai_connector.py
+|   |-- tests/
+|   |   |-- __init__.py
+|   |   |-- test_utils.py
+|   |-- ui/
+|   |   |-- render.py
+|   |   |-- settings.py
+|   |-- utils/
+|   |   |-- __init__.py
+|   |   |-- common.py
+|   |   |-- llm_utils.py
+|   |   |-- streamlit_decorators.py
+|   |-- __init__.py
+|   |-- config.py
+|   |-- debug_tools.py
+|   |-- env.py
+|   |-- generate_data.py
+|   |-- llm_handler.py
+|   |-- log_tools.py
+|   |-- main.py
+|   |-- recursive_summary.py
+|-- src/
+|-- tests/
+|-- .env.example
+|-- .python-version
+|-- poetry.lock
+|-- pyproject.toml
+|-- README.md
+|-- reddit-json-schema-3-6-2023.json
+|-- settings.png
 
-----------------
-app/data_types/summary.py:
-----------------
+
+- app/data_types/__init__.py
+
+- app/data_types/summary.py
 from typing imports Dict, Optional, TypedDict
-class RedditData
-class GenerateSettings
-class ModelConfig
-class ConfigVars
+class RedditData(TypedDict)
+class GenerateSettings(TypedDict)
+class ModelConfig(TypedDict)
+class ConfigVars(TypedDict)
 
-----------------
-app/services/anthropic_connector.py:
-----------------
+- app/services/anthropic_connector.py
 imports anthropic
 from config imports ConfigLoader
 from data_types.summary imports GenerateSettings
@@ -21,9 +54,7 @@ from env imports EnvVarsLoader
 from log_tools imports Logger
 func complete_anthropic_text(prompt, max_tokens, settings)
 
-----------------
-app/services/openai_connector.py:
-----------------
+- app/services/openai_connector.py
 imports openai
 from config imports OPEN_AI_CHAT_TYPE, ConfigLoader
 from data_types.summary imports GenerateSettings
@@ -33,13 +64,9 @@ from openai.openai_object imports OpenAIObject
 func complete_openai_text(prompt, max_tokens, settings)
 	var is_chat
 
-----------------
-app/tests/__init__.py:
-----------------
+- app/tests/__init__.py
 
-----------------
-app/tests/test_utils.py:
-----------------
+- app/tests/test_utils.py
 imports os
 imports tiktoken
 from config imports OPEN_AI_CHAT_TYPE
@@ -51,9 +78,7 @@ func test_save_output()
 	var expected_filename
 	var result
 
-----------------
-app/ui/render.py:
-----------------
+- app/ui/render.py
 imports logging
 from typing imports Optional
 imports streamlit
@@ -68,9 +93,7 @@ func render_output(reddit_url, app_logger, settings)
 func render_layout(app_logger, reddit_url, settings)
 	var settings
 
-----------------
-app/ui/settings.py:
-----------------
+- app/ui/settings.py
 from typing imports Tuple
 imports streamlit
 from config imports ANTHROPIC_AI_MODELS, ANTHROPIC_AI_TYPE, OPEN_AI_CHAT_MODELS, OPEN_AI_CHAT_TYPE, OPEN_AI_INSTRUCT_MODELS, OPEN_AI_INSTRUCT_TYPE, ConfigLoader
@@ -85,13 +108,9 @@ func model_selection(col)
 	var selected_model_config
 func render_settings()
 
-----------------
-app/utils/__init__.py:
-----------------
+- app/utils/__init__.py
 
-----------------
-app/utils/common.py:
-----------------
+- app/utils/common.py
 imports os
 imports re
 from datetime imports datetime
@@ -109,9 +128,7 @@ func replace_last_token_with_json(reddit_url)
 func is_valid_reddit_url(url)
 	var pattern
 
-----------------
-app/utils/llm_utils.py:
-----------------
+- app/utils/llm_utils.py
 imports math
 imports re
 from typing imports List
@@ -126,9 +143,7 @@ func num_tokens_from_string(string, model_type)
 func estimate_word_count(num_tokens)
 func validate_max_tokens(max_tokens)
 
-----------------
-app/utils/streamlit_decorators.py:
-----------------
+- app/utils/streamlit_decorators.py
 from functools imports wraps
 from typing imports Any, Callable, TypeVar
 imports streamlit
@@ -136,42 +151,34 @@ func error_to_streamlit(func)
 func expander_decorator(title)
 func spinner_decorator(title)
 
-----------------
-app/__init__.py:
-----------------
+- app/__init__.py
 
-----------------
-app/config.py:
-----------------
+- app/config.py
 from datetime imports datetime
 from functools imports wraps
 from typing imports Any, Callable, Dict, List, Tuple, TypeVar
 from data_types.summary imports ConfigVars, ModelConfig
-class ConfigLoader
+class ConfigLoader()
 	func get_config(cls)
 func with_config(func)
 
-----------------
-app/debug_tools.py:
-----------------
+- app/debug_tools.py
 imports logging
 from typing imports Any
 imports debugpy
-class Debugger
+class Debugger()
 	func setup_debugpy(cls, streamlit, logger, flag, wait_for_client, host, port)
 	func _initialize_debugging_state(cls, streamlit)
 	func _activate_debugging(cls, streamlit, logger, wait_for_client, host, port)
 	func _deactivate_debugging(cls, streamlit, logger)
 
-----------------
-app/env.py:
-----------------
+- app/env.py
 imports os
 from typing imports Optional, TypedDict
 from dotenv imports load_dotenv
 from log_tools imports Logger
-class EnvVars
-class EnvVarsLoader
+class EnvVars(TypedDict)
+class EnvVarsLoader()
 	func load_env()
 		var org_id
 		var api_key
@@ -182,9 +189,7 @@ class EnvVarsLoader
 		var reddit_user_agent
 		var anthropic_api_key
 
-----------------
-app/generate_data.py:
-----------------
+- app/generate_data.py
 imports logging
 imports re
 from datetime imports datetime
@@ -210,9 +215,7 @@ func generate_summary_data(settings, reddit_data, logger, progress_callback)
 func generate_summaries(settings, groups, prompt, subreddit, progress_callback)
 	var total_groups
 
-----------------
-app/llm_handler.py:
-----------------
+- app/llm_handler.py
 from config imports ANTHROPIC_AI_TYPE
 from data_types.summary imports GenerateSettings
 from log_tools imports Logger
@@ -225,9 +228,7 @@ func complete_text(prompt, max_tokens, settings)
 	var selected_model_type
 	var is_anthropic
 
-----------------
-app/log_tools.py:
-----------------
+- app/log_tools.py
 imports logging
 imports logging.config
 imports os
@@ -235,13 +236,11 @@ from datetime imports datetime
 from functools imports wraps
 from typing imports Any, Callable, Optional, TypeVar
 from config imports ConfigLoader
-class Logger
+class Logger()
 	func log(cls, func, logger)
 	func get_app_logger(cls)
 
-----------------
-app/main.py:
-----------------
+- app/main.py
 imports streamlit
 from config imports ConfigLoader, ConfigVars
 from debug_tools imports Debugger
@@ -249,9 +248,7 @@ from log_tools imports Logger
 from ui.render imports render_layout
 func main(config)
 
-----------------
-app/recursive_summary.py:
-----------------
+- app/recursive_summary.py
 imports os
 imports sys
 from typing imports Any, Dict
