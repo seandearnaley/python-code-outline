@@ -54,7 +54,10 @@ def process_python_file(file_path: Path, root_folder: Path) -> str:
                 ):
                     output.append(f"\tvar {stmt.targets[0].id}")
         elif isinstance(item, ast.ClassDef):
-            output.append(f"class {item.name}")
+            base_classes = ", ".join(
+                [base.id for base in item.bases if isinstance(base, ast.Name)]
+            )
+            output.append(f"class {item.name}({base_classes})")
             for class_item in item.body:
                 if isinstance(class_item, ast.FunctionDef):
                     output.append(
