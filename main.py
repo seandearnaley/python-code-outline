@@ -1,5 +1,4 @@
-""" Generate a text-based report of the code structure for all Python files 
-    in a given folder. """
+"""Generate a text-based report of the code structure for Python code in a folder."""
 import argparse
 import ast
 from pathlib import Path
@@ -8,11 +7,9 @@ from typing import List, Optional
 
 def parse_ignore_patterns(ignorefile_path: Path) -> List[str]:
     """Parse the patterns to ignore from a .gitignore file."""
-    with open(ignorefile_path, encoding="utf-8") as file:
+    with ignorefile_path.open(encoding="utf-8") as file:
         return [
-            line.strip()
-            for line in file
-            if line.strip() and not line.strip().startswith("#")
+            line.strip() for line in file if line.strip() and not line.startswith("#")
         ]
 
 
@@ -28,48 +25,56 @@ def list_entries(root: Path) -> List[Path]:
     return sorted(root.iterdir(), key=lambda e: (e.is_file(), e.name.lower()))
 
 
+def process_import(item: ast.Import) -> str:
+    """Process an import statement."""
+    return f"imports {', '.join([alias.name for alias in item.names])}"
+
+
+def process_import_from(item: ast.ImportFrom) -> str:
+    """Process an import-from statement."""
+    return (
+        f"from {item.module} imports {', '.join([alias.name for alias in item.names])}"
+    )
+
+
+def process_function_def(item: ast.FunctionDef) -> List[str]:
+    """Process a function definition."""
+    output = [f"func {item.name}({', '.join([arg.arg for arg in item.args.args])})"]
+    for stmt in item.body:
+        if isinstance(stmt, ast.Assign) and isinstance(stmt.targets[0], ast.Name):
+            output.append(f"\tvar {stmt.targets[0].id}")
+    return output
+
+
+def process_class_def(item: ast.ClassDef) -> List[str]:
+    """Process a class definition."""
+    base_classes = ", ".join(
+        [base.id for base in item.bases if isinstance(base, ast.Name)]
+    )
+    output = [f"class {item.name}({base_classes})"]
+    for class_item in item.body:
+        if isinstance(class_item, ast.FunctionDef):
+            output.extend(["\t" + line for line in process_function_def(class_item)])
+    return output
+
+
 def process_python_file(file_path: Path, root_folder: Path) -> str:
     """Process a Python file and generate a report of its structure."""
-    with open(file_path, "r", encoding="utf-8") as file:
+    with file_path.open("r", encoding="utf-8") as file:
         node = ast.parse(file.read())
 
     relative_path = file_path.relative_to(root_folder)
-    output = [f"----------------\n{relative_path}:\n----------------"]
+    output = [f"- {relative_path}"]
 
     for item in node.body:
         if isinstance(item, ast.Import):
-            output.append(f"imports {', '.join([alias.name for alias in item.names])}")
+            output.append(process_import(item))
         elif isinstance(item, ast.ImportFrom):
-            output.append(
-                f"from {item.module} imports"
-                f" {', '.join([alias.name for alias in item.names])}"
-            )
+            output.append(process_import_from(item))
         elif isinstance(item, ast.FunctionDef):
-            output.append(
-                f"func {item.name}({', '.join([arg.arg for arg in item.args.args])})"
-            )
-            for stmt in item.body:
-                if isinstance(stmt, ast.Assign) and isinstance(
-                    stmt.targets[0], ast.Name
-                ):
-                    output.append(f"\tvar {stmt.targets[0].id}")
+            output.extend(process_function_def(item))
         elif isinstance(item, ast.ClassDef):
-            base_classes = ", ".join(
-                [base.id for base in item.bases if isinstance(base, ast.Name)]
-            )
-            output.append(f"class {item.name}({base_classes})")
-            for class_item in item.body:
-                if isinstance(class_item, ast.FunctionDef):
-                    output.append(
-                        "\tfunc"
-                        f" {class_item.name}("
-                        f"{', '.join([arg.arg for arg in class_item.args.args])})"
-                    )
-                    for stmt in class_item.body:
-                        if isinstance(stmt, ast.Assign) and isinstance(
-                            stmt.targets[0], ast.Name
-                        ):
-                            output.append(f"\t\tvar {stmt.targets[0].id}")
+            output.extend(process_class_def(item))
 
     return "\n".join(output)
 
