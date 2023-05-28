@@ -1,6 +1,6 @@
 # Python Code Structure Report Generator
 
-This Python script generates a text-based report of the code structure for all Python files in a given folder.
+This Python script generates a text-based report of the code structure for all Python files in a given folder.  Useful for getting a quick overview of the code structure of a Python project.  Helpful for ChatGPT/LLM applications where you need to ask high level questions about your codebase.
 
 [Example Report](example_report.txt?raw=true)
 
