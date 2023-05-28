@@ -21,3 +21,6 @@ output.json
 __pycache__/
 
 report.txt
+
+.mypy_cache/
+.pytest_cache/

@@ -4,6 +4,8 @@ import ast
 from pathlib import Path
 from typing import List, Optional
 
+from folder_tree_generator import generate_tree
+
 
 def parse_ignore_patterns(ignorefile_path: Path) -> List[str]:
     """Parse the patterns to ignore from a .gitignore file."""
@@ -106,7 +108,7 @@ def generate_report(
     return "\n\n".join(report)
 
 
-def parse_arguments() -> str:
+def parse_arguments() -> argparse.Namespace:
     """Parse the command-line arguments."""
     parser = argparse.ArgumentParser(
         description=(
@@ -115,6 +117,12 @@ def parse_arguments() -> str:
         )
     )
     parser.add_argument("root_folder", type=str, help="Path to the root folder")
+    parser.add_argument(
+        "--report_filename",
+        type=str,
+        default="report.txt",
+        help="Name of the report file",
+    )
 
     args = parser.parse_args()
 
@@ -123,24 +131,29 @@ def parse_arguments() -> str:
     if not Path(root_folder).is_dir():
         raise ValueError(f"{root_folder} is not a valid directory")
 
-    return root_folder
+    return args
 
 
 def main() -> None:
     """Main function."""
-    root_folder = parse_arguments()
+    args = parse_arguments()
+    root_folder = args.root_folder
+    report_filename = args.report_filename
     root = Path(root_folder)
-    ignorefile_path = root / ".gitignore"
+    ignore_file_name = ".gitignore"
+    ignorefile_path = root / ignore_file_name
     ignored_patterns = (
         parse_ignore_patterns(ignorefile_path) if ignorefile_path.exists() else []
     )
 
+    folder_tree = generate_tree(root, ignore_file_name=ignore_file_name)
+
     report = generate_report(root, root, ignored_patterns)
 
-    with open("report.txt", "w", encoding="utf-8") as file:
-        file.write(report)
+    with open(report_filename, "w", encoding="utf-8") as file:
+        file.write(folder_tree + "\n\n" + report)
 
-    print("Report generated successfully.")
+    print(f"Report generated successfully to {report_filename}.")
 
 
 if __name__ == "__main__":
