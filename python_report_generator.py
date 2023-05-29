@@ -4,8 +4,6 @@ import ast
 from pathlib import Path
 from typing import List, Optional
 
-from folder_tree_generator import generate_tree
-
 
 def parse_ignore_patterns(ignorefile_path: Path) -> List[str]:
     """Parse the patterns to ignore from a .gitignore file."""
@@ -87,6 +85,7 @@ def generate_report(
     """
     Generate a report of the code structure for all Python
     files in a given folder."""
+
     if ignored_patterns is None:
         ignored_patterns = []
 
@@ -118,10 +117,16 @@ def parse_arguments() -> argparse.Namespace:
     )
     parser.add_argument("root_folder", type=str, help="Path to the root folder")
     parser.add_argument(
-        "--report_filename",
+        "--report_file_path",
         type=str,
         default="report.txt",
         help="Name of the report file",
+    )
+    parser.add_argument(
+        "--ignore_file_path",
+        type=str,
+        default=None,
+        help="Path to the ignore file",
     )
 
     args = parser.parse_args()
@@ -134,26 +139,30 @@ def parse_arguments() -> argparse.Namespace:
     return args
 
 
+def get_report(root_folder: Path, ignore_file_path: Optional[Path] = None) -> str:
+    """Get the report of the code structure for all Python files in a given folder."""
+    ignored_patterns = (
+        parse_ignore_patterns(ignore_file_path)
+        if ignore_file_path and ignore_file_path.exists()
+        else []
+    )
+
+    return generate_report(root_folder, root_folder, ignored_patterns)
+
+
 def main() -> None:
     """Main function."""
     args = parse_arguments()
-    root_folder = args.root_folder
-    report_filename = args.report_filename
-    root = Path(root_folder)
-    ignore_file_name = ".gitignore"
-    ignorefile_path = root / ignore_file_name
-    ignored_patterns = (
-        parse_ignore_patterns(ignorefile_path) if ignorefile_path.exists() else []
-    )
+    root_folder = Path(args.root_folder)
+    report_file_path = args.report_file_path
+    ignore_file_path = Path(args.ignore_file_path) if args.ignore_file_path else None
 
-    folder_tree = generate_tree(root, ignore_file_name=ignore_file_name)
+    report = get_report(root_folder, ignore_file_path)
 
-    report = generate_report(root, root, ignored_patterns)
+    with open(report_file_path, "w", encoding="utf-8") as file:
+        file.write(report)
 
-    with open(report_filename, "w", encoding="utf-8") as file:
-        file.write(folder_tree + "\n\n" + report)
-
-    print(f"Report generated successfully to {report_filename}.")
+    print(f"Report generated successfully to {report_file_path}.")
 
 
 if __name__ == "__main__":
