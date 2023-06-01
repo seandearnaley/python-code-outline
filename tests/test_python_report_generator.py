@@ -4,19 +4,16 @@ from pathlib import Path
 
 import pytest
 
-from python_report_generator import (
-    generate_report,
-    get_report,
-    is_ignored,
-    list_entries,
-    main,
-    parse_ignore_patterns,
-    process_class_def,
-    process_function_def,
-    process_import,
-    process_import_from,
-    process_python_file,
-)
+from python_code_outline.python_report_generator import (generate_report,
+                                                         get_report,
+                                                         is_ignored,
+                                                         list_entries, main,
+                                                         parse_ignore_patterns,
+                                                         process_class_def,
+                                                         process_function_def,
+                                                         process_import,
+                                                         process_import_from,
+                                                         process_python_file)
 
 
 @pytest.fixture(name="sample_ignore_file")

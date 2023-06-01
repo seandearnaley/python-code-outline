@@ -13,6 +13,7 @@ logs/
 
 # Input files
 inputs/
+dist/
 
 # Output files
 outputs/

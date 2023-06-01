@@ -1,5 +1,7 @@
 # Python Code Structure Report Generator
 
+[![PyPI version](https://badge.fury.io/py/python-code-outline.svg)](https://badge.fury.io/py/python-code-outline)
+
 ![Test](https://github.com/seandearnaley/python-code-outline/workflows/Run%20pytest/badge.svg)
 
 This Python script generates a text-based report of the code structure for all Python files in a given folder. It's useful for getting a quick overview of the code structure of a Python project. This can be particularly helpful for ChatGPT/Large Language Model (LLM) applications where you need to ask high-level questions about your codebase.
@@ -11,7 +13,7 @@ This Python script generates a text-based report of the code structure for all P
 To use this script, run the `python_report_generator.py` file and provide the path to the folder containing the Python files you want to analyze. You can also optionally specify a name for the report file, which defaults to `report.txt` if not provided, and a path to the ignore file. The ignore file should be a `.gitignore` file or a file with the same format as a `.gitignore` file. If provided, the script will parse the ignore patterns from the file and exclude the matching files and folders from the report.
 
 ```bash
-python python_report_generator.py /path/to/folder --report_file_path custom_report.txt --ignore_file_path /path/to/folder/.gitignore
+python python_code_outline/python_report_generator.py /path/to/folder --report_file_path custom_report.txt --ignore_file_path /path/to/folder/.gitignore
 ```
 
 If the `--report_file_path` option is not specified, the report will be written to `report.txt` by default.
