@@ -1,5 +1,7 @@
 # Python Code Structure Report Generator
 
+![Test](https://github.com/seandearnaley/python-code-outline/workflows/Run%20pytest/badge.svg)
+
 This Python script generates a text-based report of the code structure for all Python files in a given folder. It's useful for getting a quick overview of the code structure of a Python project. This can be particularly helpful for ChatGPT/Large Language Model (LLM) applications where you need to ask high-level questions about your codebase.
 
 [Example Report](example_report.txt?raw=true)
@@ -30,6 +32,52 @@ The script will generate a text-based report of the code structure for each Pyth
 ## Requirements
 
 This script requires Python 3.x to run.
+
+## Installation
+
+This project uses [Poetry](https://python-poetry.org/) for dependency management. To install the dependencies, first install Poetry by following the [official installation guide](https://python-poetry.org/docs/#installation), and then run the following command in the project directory:
+
+```bash
+poetry install
+```
+
+This will create a virtual environment and install the required dependencies.
+
+## Running Tests
+
+This project uses `pytest` for testing. To run the tests, first activate the virtual environment created by Poetry:
+
+```bash
+poetry shell
+```
+
+Then, run the tests using the following command:
+
+```bash
+pytest
+```
+
+## Checking Test Coverage
+
+This project uses the `coverage` package to generate test coverage reports. To check the test coverage, run the following command:
+
+```bash
+coverage run -m pytest
+```
+
+This will generate a `.coverage` file with the coverage data. To view the coverage report, run:
+
+```bash
+coverage report
+```
+
+To generate an HTML report, run:
+
+```bash
+coverage html
+```
+
+This will create an `htmlcov` directory containing the HTML report.
 
 ## License
 
