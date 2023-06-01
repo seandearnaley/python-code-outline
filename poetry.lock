@@ -200,18 +200,6 @@ files = [
 test = ["pytest (>=6)"]
 
 [[package]]
-name = "folder-tree-generator"
-version = "0.1.6"
-description = "Takes a folder path and outputs a text representation of the folders and files, supports ignore files."
-category = "main"
-optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "folder_tree_generator-0.1.6-py3-none-any.whl", hash = "sha256:c802c6a2a85b5bf73db96e92948e2feeb5073932de38432761c67f54e9008dbb"},
-    {file = "folder_tree_generator-0.1.6.tar.gz", hash = "sha256:0bd5abd14f4ade39d58b15d46a256ca48fccdd79deeb356f15b9abfb527625dc"},
-]
-
-[[package]]
 name = "iniconfig"
 version = "2.0.0"
 description = "brain-dead simple config-ini parsing"
@@ -635,4 +623,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "09e31b45010c233fc57230c3456c51eb216e97bff3a071e4b0cb92116c1093b5"
+content-hash = "ef9b6b7633a4a1d7f5e88eb70a6e20c119f5cbc6046b6b18b2c384794c8a7f6f"
