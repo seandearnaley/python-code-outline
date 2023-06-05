@@ -22,6 +22,32 @@ If the `--report_file_path` option is not specified, the report will be written 
 python python_report_generator.py /path/to/folder
 ```
 
+## Usage as a pip module
+
+After installing the package via pip, you can import and use the functionality in your own code as well. For example:
+
+```python
+from python_code_outline import python_report_generator
+
+# Define the root folder
+root_folder = "/path/to/folder"
+
+# Specify the report and ignore file paths (optional)
+report_file_path = "custom_report.txt"
+ignore_file_path = "/path/to/folder/.gitignore"
+
+# Generate the report
+report = python_report_generator.get_report(root_folder, ignore_file_path)
+
+# Write the report to a file
+with open(report_file_path, "w", encoding="utf-8") as file:
+    file.write(report)
+
+print(f"Report generated successfully to {report_file_path}.")
+```
+
+Please replace "/path/to/folder" with the path to the folder you want to analyze, and update the report and ignore file paths as necessary.
+
 ## Output
 
 The script will generate a text-based report of the code structure for each Python file in the specified folder. The report includes information about imports, classes, functions, and variables in each file.
@@ -45,6 +71,16 @@ poetry install
 
 This will create a virtual environment and install the required dependencies.
 
+You can install this module using pip:
+
+```bash
+pip install python-code-outline
+```
+
+This command will download the package from PyPI and install it in your current Python environment.
+
+Absolutely, I can update the installation instructions. Here is the updated `readme.md`:
+
 ## Running Tests
 
 This project uses `pytest` for testing. To run the tests, first activate the virtual environment created by Poetry:
@@ -61,26 +97,44 @@ pytest
 
 ## Checking Test Coverage
 
-This project uses the `coverage` package to generate test coverage reports. To check the test coverage, run the following command:
+This project uses the `coverage` package to generate test coverage reports. Here's how to use it:
+
+1. First, you need to install the `coverage` package if it's not already installed. You can do so by running the following command:
+
+```bash
+pip install coverage
+```
+
+2. After installing `coverage`, you can use it to run your tests and collect coverage data. If you're using `pytest` for testing, you can use the following command:
 
 ```bash
 coverage run -m pytest
 ```
 
-This will generate a `.coverage` file with the coverage data. To view the coverage report, run:
+This command tells `coverage` to run `pytest` as a module (hence the `-m` flag), and `coverage` collects data about which parts of your code were executed during the test run.
+
+3. Once you've collected coverage data, you can generate a report by running:
 
 ```bash
 coverage report
 ```
 
-To generate an HTML report, run:
+This will print a coverage report to the terminal, showing the code coverage for each module in your project.
+
+4. If you want a more detailed view, you can generate an HTML report using:
 
 ```bash
 coverage html
 ```
 
-This will create an `htmlcov` directory containing the HTML report.
+This will generate an `htmlcov` directory in your project directory. Inside this directory, you'll find an `index.html` file. You can open this file in a web browser to view a detailed coverage report that shows which lines of each file were covered by the tests.
 
-## License
+5. If you're finished checking coverage and want to clear the collected data, you can use the command:
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```bash
+coverage erase
+```
+
+This will delete the `.coverage` data file, clearing the collected coverage data.
+
+Remember that code coverage is a useful tool for finding untested parts of your code, but achieving 100% code coverage doesn't necessarily mean your testing is perfect. It's important to write meaningful tests and not just strive for high coverage percentages.
