@@ -79,6 +79,9 @@ def process_python_file(file_path: Path, root_folder: Path) -> str:
     return "\n".join(output)
 
 
+# ...
+
+
 def generate_report(
     root: Path, root_folder: Path, ignored_patterns: Optional[List[str]] = None
 ) -> str:
@@ -90,7 +93,7 @@ def generate_report(
         ignored_patterns = []
 
     entries = list_entries(root)
-    report = []
+    report: List[str] = []  # add type hint for report list
 
     for entry in entries:
         if (
