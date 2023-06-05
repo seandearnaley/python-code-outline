@@ -3,17 +3,21 @@ import ast
 from pathlib import Path
 
 import pytest
+from pytest import CaptureFixture
 
-from python_code_outline.python_report_generator import (generate_report,
-                                                         get_report,
-                                                         is_ignored,
-                                                         list_entries, main,
-                                                         parse_ignore_patterns,
-                                                         process_class_def,
-                                                         process_function_def,
-                                                         process_import,
-                                                         process_import_from,
-                                                         process_python_file)
+from python_code_outline.python_report_generator import (
+    generate_report,
+    get_report,
+    is_ignored,
+    list_entries,
+    main,
+    parse_ignore_patterns,
+    process_class_def,
+    process_function_def,
+    process_import,
+    process_import_from,
+    process_python_file,
+)
 
 
 @pytest.fixture(name="sample_ignore_file")
@@ -182,7 +186,10 @@ def test_generate_report_with_arguments(tmp_path: Path) -> None:
 
 
 def test_main(
-    sample_directory: Path, sample_ignore_file: Path, capsys, monkeypatch
+    sample_directory: Path,
+    sample_ignore_file: Path,
+    capsys: CaptureFixture[str],
+    monkeypatch,
 ) -> None:
     """Test main function."""
     # Move the sample_ignore_file to the sample_directory
