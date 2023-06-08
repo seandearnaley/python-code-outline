@@ -28,7 +28,7 @@ After installing the package via pip, you can import and use the functionality i
 
 ```python
 """ Generate a report of the python code outline of a folder. """
-from python_code_outline import python_report_generator
+from python_code_outline import get_report
 
 # Define the root folder
 ROOT_FOLDER = "/path/to/folder"

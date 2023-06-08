@@ -101,9 +101,9 @@ def generate_report(
             and not is_ignored(entry, ignored_patterns)
             and entry.suffix == ".py"
         ):
-            report.append(process_python_file(entry, root_folder))
+            report.append(process_python_file(entry, Path(root_folder)))
         elif entry.is_dir() and not is_ignored(entry, ignored_patterns):
-            subdir_report = generate_report(entry, root_folder, ignored_patterns)
+            subdir_report = generate_report(str(entry), root_folder, ignored_patterns)
             if subdir_report:
                 report.append(subdir_report)
 
@@ -156,7 +156,7 @@ def get_report(root_folder: str, ignore_file_path: Optional[str] = None) -> str:
 def main() -> None:
     """Main function."""
     args = parse_arguments()
-    root_folder = Path(args.root_folder)
+    root_folder = args.root_folder
     report_file_path = args.report_file_path
     ignore_file_path = args.ignore_file_path if args.ignore_file_path else None
 

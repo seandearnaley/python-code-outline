@@ -39,7 +39,7 @@ def fixture_sample_directory(tmp_path: Path) -> Path:
     return tmp_path
 
 
-def test_parse_ignore_patterns(sample_ignore_file: Path) -> None:
+def test_parse_ignore_patterns(sample_ignore_file: str) -> None:
     """Test that the ignore patterns are parsed correctly."""
     patterns = parse_ignore_patterns(sample_ignore_file)
     assert patterns == ["*.txt", "*.log"]
@@ -54,7 +54,7 @@ def test_is_ignored(sample_directory: Path) -> None:
 
 def test_list_entries(sample_directory: Path) -> None:
     """Test that the entries are listed correctly."""
-    entries = list_entries(sample_directory)
+    entries = list_entries(str(sample_directory))
     assert entries == [
         sample_directory / "folder1",
         sample_directory / "folder2",
@@ -122,8 +122,10 @@ def test_process_python_file(sample_directory: Path) -> None:
 
 def test_generate_report(sample_directory: Path, sample_ignore_file: Path) -> None:
     """Test that the report is generated correctly."""
-    ignored_patterns = parse_ignore_patterns(sample_ignore_file)
-    report = generate_report(sample_directory, sample_directory, ignored_patterns)
+    ignored_patterns = parse_ignore_patterns(str(sample_ignore_file))
+    report = generate_report(
+        str(sample_directory), str(sample_directory), ignored_patterns
+    )
     expected_report = "- file1.py\nimports os\n\n- file2.py\nfrom pathlib imports Path"
     assert report == expected_report
 
@@ -158,7 +160,9 @@ class ExampleClass:
 
 def test_generate_report_no_ignore_patterns(sample_directory: Path) -> None:
     """Test that the report is generated correctly when ignored_patterns is None."""
-    report = generate_report(sample_directory, sample_directory, ignored_patterns=None)
+    report = generate_report(
+        str(sample_directory), str(sample_directory), ignored_patterns=None
+    )
     expected_report = "- file1.py\nimports os\n\n- file2.py\nfrom pathlib imports Path"
     assert report == expected_report
 
@@ -175,7 +179,7 @@ def test_generate_report_with_arguments(tmp_path: Path) -> None:
 
     report_file_path = tmp_path / "report.txt"
 
-    report = get_report(root_folder, ignore_file_path)
+    report = get_report(str(root_folder), str(ignore_file_path))
     expected_report = "- file1.py\nimports os\n\n- file2.py\nfrom pathlib imports Path"
 
     with open(report_file_path, "w", encoding="utf-8") as file:
@@ -257,7 +261,9 @@ def test_generate_report_with_subdir(sample_directory: Path) -> None:
     subdir.mkdir()
     (subdir / "file3.py").write_text("import math\n")
     ignored_patterns = ["*.txt", "*.log"]
-    report = generate_report(sample_directory, sample_directory, ignored_patterns)
+    report = generate_report(
+        str(sample_directory), str(sample_directory), ignored_patterns
+    )
     expected_report_parts = [
         "- file1.py\nimports os",
         "- file2.py\nfrom pathlib imports Path",
