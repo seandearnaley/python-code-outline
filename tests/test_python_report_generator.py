@@ -3,7 +3,7 @@ import ast
 from pathlib import Path
 
 import pytest
-from pytest import CaptureFixture
+from pytest import CaptureFixture, MonkeyPatch
 
 from python_code_outline.python_report_generator import (
     generate_report,
@@ -189,7 +189,7 @@ def test_main(
     sample_directory: Path,
     sample_ignore_file: Path,
     capsys: CaptureFixture[str],
-    monkeypatch,
+    monkeypatch: MonkeyPatch,
 ) -> None:
     """Test main function."""
     # Move the sample_ignore_file to the sample_directory
@@ -268,7 +268,7 @@ def test_generate_report_with_subdir(sample_directory: Path) -> None:
         assert part in report
 
 
-def test_main_invalid_directory(monkeypatch) -> None:
+def test_main_invalid_directory(monkeypatch: MonkeyPatch) -> None:
     """Test main function with an invalid directory."""
     # Set command-line arguments
     monkeypatch.setattr(
