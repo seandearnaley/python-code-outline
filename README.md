@@ -27,23 +27,24 @@ python python_report_generator.py /path/to/folder
 After installing the package via pip, you can import and use the functionality in your own code as well. For example:
 
 ```python
+""" Generate a report of the python code outline of a folder. """
 from python_code_outline import python_report_generator
 
 # Define the root folder
-root_folder = "/path/to/folder"
+ROOT_FOLDER = "/path/to/folder"
 
 # Specify the report and ignore file paths (optional)
-report_file_path = "custom_report.txt"
-ignore_file_path = "/path/to/folder/.gitignore"
+REPORT_FILE_PATH = "custom_report.txt"
+IGNORE_FILE_PATH = "/path/to/folder/.gitignore"
 
 # Generate the report
-report = python_report_generator.get_report(root_folder, ignore_file_path)
+REPORT = python_report_generator.get_report(ROOT_FOLDER, IGNORE_FILE_PATH)
 
 # Write the report to a file
-with open(report_file_path, "w", encoding="utf-8") as file:
-    file.write(report)
+with open(REPORT_FILE_PATH, "w", encoding="utf-8") as file:
+    file.write(REPORT)
 
-print(f"Report generated successfully to {report_file_path}.")
+print(f"Report generated successfully to {REPORT_FILE_PATH}.")
 ```
 
 Please replace "/path/to/folder" with the path to the folder you want to analyze, and update the report and ignore file paths as necessary.
@@ -77,9 +78,13 @@ You can install this module using pip:
 pip install python-code-outline
 ```
 
-This command will download the package from PyPI and install it in your current Python environment.
+or with poetry
 
-Absolutely, I can update the installation instructions. Here is the updated `readme.md`:
+```bash
+poetry add python-code-outline
+```
+
+This command will download the package from PyPI and install it in your current Python environment.
 
 ## Running Tests
 
@@ -99,11 +104,19 @@ pytest
 
 This project uses the `coverage` package to generate test coverage reports. Here's how to use it:
 
-1. First, you need to install the `coverage` package if it's not already installed. You can do so by running the following command:
+1. First, you need to install the `coverage` package if it's not already installed.
 
 ```bash
 pip install coverage
 ```
+
+or
+
+```bash
+poetry add coverage
+```
+
+If you're using Poetry, you can also add `coverage` to your `pyproject.toml` file and run `poetry install` to install it.
 
 2. After installing `coverage`, you can use it to run your tests and collect coverage data. If you're using `pytest` for testing, you can use the following command:
 

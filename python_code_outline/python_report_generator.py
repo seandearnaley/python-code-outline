@@ -5,9 +5,9 @@ from pathlib import Path
 from typing import List, Optional
 
 
-def parse_ignore_patterns(ignorefile_path: Path) -> List[str]:
+def parse_ignore_patterns(ignorefile_path: str) -> List[str]:
     """Parse the patterns to ignore from a .gitignore file."""
-    with ignorefile_path.open(encoding="utf-8") as file:
+    with Path(ignorefile_path).open(encoding="utf-8") as file:
         return [
             line.strip() for line in file if line.strip() and not line.startswith("#")
         ]
@@ -20,9 +20,9 @@ def is_ignored(entry: Path, ignored_patterns: List[str]) -> bool:
     )
 
 
-def list_entries(root: Path) -> List[Path]:
+def list_entries(root: str) -> List[Path]:
     """List all entries in a given folder, sorted by type and name."""
-    return sorted(root.iterdir(), key=lambda e: (e.is_file(), e.name.lower()))
+    return sorted(Path(root).iterdir(), key=lambda e: (e.is_file(), e.name.lower()))
 
 
 def process_import(item: ast.Import) -> str:
@@ -83,7 +83,7 @@ def process_python_file(file_path: Path, root_folder: Path) -> str:
 
 
 def generate_report(
-    root: Path, root_folder: Path, ignored_patterns: Optional[List[str]] = None
+    root: str, root_folder: str, ignored_patterns: Optional[List[str]] = None
 ) -> str:
     """
     Generate a report of the code structure for all Python
@@ -142,11 +142,11 @@ def parse_arguments() -> argparse.Namespace:
     return args
 
 
-def get_report(root_folder: Path, ignore_file_path: Optional[Path] = None) -> str:
+def get_report(root_folder: str, ignore_file_path: Optional[str] = None) -> str:
     """Get the report of the code structure for all Python files in a given folder."""
     ignored_patterns = (
         parse_ignore_patterns(ignore_file_path)
-        if ignore_file_path and ignore_file_path.exists()
+        if ignore_file_path and Path(ignore_file_path).exists()
         else []
     )
 
@@ -158,7 +158,7 @@ def main() -> None:
     args = parse_arguments()
     root_folder = Path(args.root_folder)
     report_file_path = args.report_file_path
-    ignore_file_path = Path(args.ignore_file_path) if args.ignore_file_path else None
+    ignore_file_path = args.ignore_file_path if args.ignore_file_path else None
 
     report = get_report(root_folder, ignore_file_path)
 
