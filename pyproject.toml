@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python-code-outline"
-version = "0.1.7"
+version = "0.1.8"
 description = "Takes a folder path and outputs a text outline of the code, supports ignore files."
 authors = ["Sean Dearnaley <SeanDearnaley@outlook.com>"]
 readme = "README.md"
@@ -15,7 +15,7 @@ pytest = "^7.3.0"
 ruff = "^0.0.261"
 black = "^23.3.0"
 pytest-mock = "^3.10.0"
-coverage = "^7.2.3"
+pytest-cov = "^4.1.0"
 
 [build-system]
 requires = ["poetry-core"]

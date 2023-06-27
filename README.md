@@ -19,7 +19,7 @@ python python_code_outline/python_report_generator.py /path/to/folder --report_f
 If the `--report_file_path` option is not specified, the report will be written to `report.txt` by default.
 
 ```bash
-python python_report_generator.py /path/to/folder
+python python_code_outline/python_report_generator.py /path/to/folder
 ```
 
 ## Usage as a pip module
@@ -102,29 +102,29 @@ pytest
 
 ## Checking Test Coverage
 
-This project uses the `coverage` package to generate test coverage reports. Here's how to use it:
+This project uses the `pytest-cov` package to generate test coverage reports. Here's how to use it:
 
-1. First, you need to install the `coverage` package if it's not already installed.
+1. First, you need to install the `pytest-cov` package if it's not already installed.
 
 ```bash
-pip install coverage
+pip install pytest-cov
 ```
 
 or
 
 ```bash
-poetry add coverage
+poetry add pytest-cov
 ```
 
-If you're using Poetry, you can also add `coverage` to your `pyproject.toml` file and run `poetry install` to install it.
+If you're using Poetry, you can also add `pytest-cov` to your `pyproject.toml` file and run `poetry install` to install it.
 
-2. After installing `coverage`, you can use it to run your tests and collect coverage data. If you're using `pytest` for testing, you can use the following command:
+2. After installing `pytest-cov`, you can use it to run your tests and collect coverage data. If you're using `pytest` for testing, you can use the following command:
 
 ```bash
-coverage run -m pytest
+pytest --cov=python_code_outline
 ```
 
-This command tells `coverage` to run `pytest` as a module (hence the `-m` flag), and `coverage` collects data about which parts of your code were executed during the test run.
+This command tells `pytest` to collect coverage data for the `python_code_outline` module during the test run.
 
 3. Once you've collected coverage data, you can generate a report by running:
 
@@ -151,3 +151,11 @@ coverage erase
 This will delete the `.coverage` data file, clearing the collected coverage data.
 
 Remember that code coverage is a useful tool for finding untested parts of your code, but achieving 100% code coverage doesn't necessarily mean your testing is perfect. It's important to write meaningful tests and not just strive for high coverage percentages.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue on the [GitHub repository](https://github.com/seandearnaley/python-code-outline).
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
