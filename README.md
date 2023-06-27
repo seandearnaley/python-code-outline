@@ -4,6 +4,8 @@
 
 ![Test](https://github.com/seandearnaley/python-code-outline/workflows/Run%20pytest/badge.svg)
 
+[![codecov](https://codecov.io/gh/seandearnaley/python-code-outline/branch/main/graph/badge.svg?token=ZTO7T0J6TZ)](https://codecov.io/gh/seandearnaley/python-code-outline)
+
 This Python script generates a text-based report of the code structure for all Python files in a given folder. It's useful for getting a quick overview of the code structure of a Python project. This can be particularly helpful for ChatGPT/Large Language Model (LLM) applications where you need to ask high-level questions about your codebase.
 
 [Example Report](example_report.txt?raw=true)
