@@ -79,9 +79,6 @@ def process_python_file(file_path: Path, root_folder: Path) -> str:
     return "\n".join(output)
 
 
-# ...
-
-
 def generate_report(
     root: str, root_folder: str, ignored_patterns: Optional[List[str]] = None
 ) -> str:
@@ -110,6 +107,13 @@ def generate_report(
     return "\n\n".join(report)
 
 
+def expand_user_path(path: Optional[str]) -> Optional[str]:
+    """Expand the user home directory symbol '~' if it's part of the path."""
+    if path is not None:
+        return str(Path(path).expanduser().resolve())
+    return None
+
+
 def parse_arguments() -> argparse.Namespace:
     """Parse the command-line arguments."""
     parser = argparse.ArgumentParser(
@@ -134,16 +138,22 @@ def parse_arguments() -> argparse.Namespace:
 
     args = parser.parse_args()
 
-    root_folder: str = args.root_folder
-
-    if not Path(root_folder).is_dir():
-        raise ValueError(f"{root_folder} is not a valid directory")
+    args.root_folder = expand_user_path(args.root_folder)
+    args.ignore_file_path = expand_user_path(args.ignore_file_path)
 
     return args
 
 
 def get_report(root_folder: str, ignore_file_path: Optional[str] = None) -> str:
     """Get the report of the code structure for all Python files in a given folder."""
+
+    if not Path(root_folder).is_dir():
+        raise ValueError(f"{root_folder} is not a valid directory")
+
+    if ignore_file_path is not None:
+        if not Path(ignore_file_path).is_file():
+            raise ValueError(f"{ignore_file_path} is not a valid file")
+
     ignored_patterns = (
         parse_ignore_patterns(ignore_file_path)
         if ignore_file_path and Path(ignore_file_path).exists()

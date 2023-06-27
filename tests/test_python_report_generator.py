@@ -6,6 +6,7 @@ import pytest
 from pytest import CaptureFixture, MonkeyPatch
 
 from python_code_outline.python_report_generator import (
+    expand_user_path,
     generate_report,
     get_report,
     is_ignored,
@@ -292,3 +293,33 @@ def test_main_invalid_directory(monkeypatch: MonkeyPatch) -> None:
     # Call main function and expect a ValueError
     with pytest.raises(ValueError, match="invalid_directory is not a valid directory"):
         main()
+
+
+def test_get_report_invalid_root_folder() -> None:
+    """Test generate_tree function with an invalid root folder."""
+    with pytest.raises(ValueError) as excinfo:
+        get_report("invalid_folder")
+    assert str(excinfo.value) == "invalid_folder is not a valid directory"
+
+
+def test_get_report_invalid_ignore_file_path(sample_directory: Path) -> None:
+    """Test generate_tree function with an invalid ignore file path."""
+    with pytest.raises(ValueError) as excinfo:
+        get_report(str(sample_directory), ignore_file_path="invalid_file")
+    assert str(excinfo.value) == "invalid_file is not a valid file"
+
+
+def test_expand_user_path():
+    """Test expand_user_path function."""
+    # test with a relative path
+    relative_path = "test_dir/test_file"
+    expected_path = Path(relative_path).resolve()
+    assert expand_user_path(relative_path) == str(expected_path)
+
+    # test with a home directory shortcut
+    home_shortcut_path = "~/test_dir/test_file"
+    expected_path = Path(home_shortcut_path).expanduser().resolve()
+    assert expand_user_path(home_shortcut_path) == str(expected_path)
+
+    # test with None
+    assert expand_user_path(None) is None
