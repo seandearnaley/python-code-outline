@@ -110,7 +110,11 @@ def generate_report(
 def expand_user_path(path: Optional[str]) -> Optional[str]:
     """Expand the user home directory symbol '~' if it's part of the path."""
     if path is not None:
-        return str(Path(path).expanduser().resolve())
+        path_obj = Path(path)
+        if "~" in path:
+            return str(path_obj.expanduser().resolve())
+
+        return str(path_obj)
     return None
 
 

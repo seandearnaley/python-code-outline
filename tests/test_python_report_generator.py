@@ -313,8 +313,7 @@ def test_expand_user_path():
     """Test expand_user_path function."""
     # test with a relative path
     relative_path = "test_dir/test_file"
-    expected_path = Path(relative_path).resolve()
-    assert expand_user_path(relative_path) == str(expected_path)
+    assert expand_user_path(relative_path) == relative_path
 
     # test with a home directory shortcut
     home_shortcut_path = "~/test_dir/test_file"
