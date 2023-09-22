@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python-code-outline"
-version = "0.1.8"
+version = "0.1.9"
 description = "Takes a folder path and outputs a text outline of the code, supports ignore files."
 authors = ["Sean Dearnaley <SeanDearnaley@outlook.com>"]
 readme = "README.md"

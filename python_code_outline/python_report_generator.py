@@ -39,7 +39,7 @@ def process_import_from(item: ast.ImportFrom) -> str:
 
 def process_function_def(item: ast.FunctionDef) -> List[str]:
     """Process a function definition."""
-    output = [f"func {item.name}({', '.join([arg.arg for arg in item.args.args])})"]
+    output = [f"fn {item.name}({', '.join([arg.arg for arg in item.args.args])})"]
     for stmt in item.body:
         if isinstance(stmt, ast.Assign) and isinstance(stmt.targets[0], ast.Name):
             output.append(f"\tvar {stmt.targets[0].id}")
@@ -51,7 +51,7 @@ def process_class_def(item: ast.ClassDef) -> List[str]:
     base_classes = ", ".join(
         [base.id for base in item.bases if isinstance(base, ast.Name)]
     )
-    output = [f"class {item.name}({base_classes})"]
+    output = [f"cls {item.name}({base_classes})"]
     for class_item in item.body:
         if isinstance(class_item, ast.FunctionDef):
             output.extend(["\t" + line for line in process_function_def(class_item)])

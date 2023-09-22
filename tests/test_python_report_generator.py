@@ -91,7 +91,7 @@ def example_function(arg1, arg2):
     item = node.body[0]
     assert isinstance(item, ast.FunctionDef)
     assert process_function_def(item) == [
-        "func example_function(arg1, arg2)",
+        "fn example_function(arg1, arg2)",
         "\tvar var1",
         "\tvar var2",
     ]
@@ -108,8 +108,8 @@ class ExampleClass:
     item = node.body[0]
     assert isinstance(item, ast.ClassDef)
     assert process_class_def(item) == [
-        "class ExampleClass()",
-        "\tfunc method1(self, arg1)",
+        "cls ExampleClass()",
+        "\tfn method1(self, arg1)",
         "\t\tvar var1",
     ]
 
@@ -141,7 +141,7 @@ def example_function(arg1, arg2):
     item = node.body[0]
     assert isinstance(item, ast.FunctionDef)
     assert process_function_def(item) == [
-        "func example_function(arg1, arg2)",
+        "fn example_function(arg1, arg2)",
     ]
 
 
@@ -155,7 +155,7 @@ class ExampleClass:
     item = node.body[0]
     assert isinstance(item, ast.ClassDef)
     assert process_class_def(item) == [
-        "class ExampleClass()",
+        "cls ExampleClass()",
     ]
 
 
@@ -245,7 +245,7 @@ def test_process_python_file_function_def(sample_directory: Path) -> None:
     file_path = sample_directory / "file_with_function.py"
     file_path.write_text("def example_function(arg1, arg2):\n    pass\n")
     report = process_python_file(file_path, sample_directory)
-    assert report == "- file_with_function.py\nfunc example_function(arg1, arg2)"
+    assert report == "- file_with_function.py\nfn example_function(arg1, arg2)"
 
 
 def test_process_python_file_class_def(sample_directory: Path) -> None:
@@ -253,7 +253,7 @@ def test_process_python_file_class_def(sample_directory: Path) -> None:
     file_path = sample_directory / "file_with_class.py"
     file_path.write_text("class ExampleClass:\n    pass\n")
     report = process_python_file(file_path, sample_directory)
-    assert report == "- file_with_class.py\nclass ExampleClass()"
+    assert report == "- file_with_class.py\ncls ExampleClass()"
 
 
 def test_generate_report_with_subdir(sample_directory: Path) -> None:
